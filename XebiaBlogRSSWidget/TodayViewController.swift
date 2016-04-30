@@ -60,24 +60,24 @@ class TodayViewController: UITableViewController, NCWidgetProviding {
         preferredContentSize = CGSizeMake(CGFloat(0), CGFloat(tableView(tableView, numberOfRowsInSection: 0)) * CGFloat(tableView.rowHeight) + tableView.sectionFooterHeight)
     }
 
-    override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
-        coordinator.animateAlongsideTransition({ context in
-            self.tableView.frame = CGRectMake(0, 0, size.width, size.height)
-        }, completion: nil)
-    }
-    
-    func widgetPerformUpdateWithCompletionHandler(completionHandler: ((NCUpdateResult) -> Void)!) {
+//    override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
+//        coordinator.animateAlongsideTransition({ context in
+//            self.tableView.frame = CGRectMake(0, 0, size.width, size.height)
+//        }, completion: nil)
+//    }
+	
+    func widgetPerformUpdateWithCompletionHandler(completionHandler: ((NCUpdateResult) -> Void)) {
         loadFeed(completionHandler)
     }
 
     func loadFeed(completionHandler: ((NCUpdateResult) -> Void)!) {
 
         let url = NSURL(string: "http://blog.xebia.com/feed/")
-        let req = NSURLRequest(URL: url)
+        let req = NSURLRequest(URL: url!)
 
         RSSParser.parseRSSFeedForRequest(req,
             success: { feedItems in
-                if self.hasNewData(feedItems as [RSSItem]) {
+                if self.hasNewData(feedItems as! [RSSItem]) {
                     self.items = feedItems as? [RSSItem]
                     self.tableView .reloadData()
                     self.updatePreferredContentSize()
@@ -88,7 +88,7 @@ class TodayViewController: UITableViewController, NCWidgetProviding {
                 }
             },
             failure: { error in
-                println(error)
+                print(error)
                 completionHandler(.Failed)
                 
         })
@@ -108,12 +108,26 @@ class TodayViewController: UITableViewController, NCWidgetProviding {
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("RSSItem", forIndexPath: indexPath) as RSSItemTableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("RSSItem", forIndexPath: indexPath) as! RSSItemTableViewCell
 
         if let item = items?[indexPath.row] {
-            cell.titleLabel.text = item.title
-            cell.authorLabel.text = item.author
-            cell.dateLabel.text = dateFormatter.stringFromDate(item.pubDate)
+			if (item.title != nil) {
+				cell.titleLabel.text = item.title
+			} else {
+				cell.titleLabel.text = "<Missing title>"
+			}
+			
+			if (item.author != nil) {
+				cell.authorLabel.text = item.author
+			} else {
+				cell.authorLabel.text = ""
+			}
+			
+			if (item.pubDate != nil) {
+				cell.dateLabel.text = dateFormatter.stringFromDate(item.pubDate)
+			} else {
+				cell.dateLabel.text = ""
+			}
         }
 
         return cell

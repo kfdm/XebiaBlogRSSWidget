@@ -5,6 +5,7 @@
 xcuserdata
 
 build
+DerivedData
 *.swp
 
 .idea

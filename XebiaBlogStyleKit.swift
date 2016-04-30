@@ -25,7 +25,7 @@ public class XebiaBlogStyleKit : NSObject {
 
         //// ArrowShape
         //// Bezier Drawing
-        var bezierPath = UIBezierPath()
+        let bezierPath = UIBezierPath()
         bezierPath.moveToPoint(CGPointMake(arrowShape.minX + 0.30000 * arrowShape.width, arrowShape.minY + 0.00000 * arrowShape.height))
         bezierPath.addLineToPoint(CGPointMake(arrowShape.minX + 0.30000 * arrowShape.width, arrowShape.minY + 0.62222 * arrowShape.height))
         bezierPath.addLineToPoint(CGPointMake(arrowShape.minX + 0.00000 * arrowShape.width, arrowShape.minY + 0.44444 * arrowShape.height))
@@ -36,7 +36,7 @@ public class XebiaBlogStyleKit : NSObject {
 
 
         //// Bezier 2 Drawing
-        var bezier2Path = UIBezierPath()
+        let bezier2Path = UIBezierPath()
         bezier2Path.moveToPoint(CGPointMake(arrowShape.minX + 0.70000 * arrowShape.width, arrowShape.minY + 0.00000 * arrowShape.height))
         bezier2Path.addLineToPoint(CGPointMake(arrowShape.minX + 0.70000 * arrowShape.width, arrowShape.minY + 0.62222 * arrowShape.height))
         bezier2Path.addLineToPoint(CGPointMake(arrowShape.minX + 1.00000 * arrowShape.width, arrowShape.minY + 0.44444 * arrowShape.height))
